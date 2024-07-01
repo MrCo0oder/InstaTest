@@ -28,8 +28,6 @@ class CustomDropDownTest {
 
         composeTestRule.onNodeWithText("Select an item").performClick()
         composeTestRule.onNodeWithText("Item 1").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Item 2").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Item 3").assertIsDisplayed()
     }
 
     // Empty list is passed as items

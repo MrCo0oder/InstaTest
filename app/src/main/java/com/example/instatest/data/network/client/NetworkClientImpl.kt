@@ -114,7 +114,7 @@ class NetworkClientImpl(private val dbHelper: DatabaseHelper): NetworkClient{
             request.body ?: buildString {
                 append(request.parts.toString())
             },
-            if (e is HttpRetryException) e.responseCode() else 0,
+            if (e is HttpRetryException) e.responseCode() else if (e is UnknownHostException) -1 else 0,
             e.message,
             null
 

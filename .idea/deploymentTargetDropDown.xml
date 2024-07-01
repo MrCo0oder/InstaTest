@@ -5,6 +5,9 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="dropdown_expands_when_clicked()">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
