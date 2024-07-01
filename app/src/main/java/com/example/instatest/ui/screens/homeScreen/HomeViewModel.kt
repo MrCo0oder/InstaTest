@@ -104,7 +104,7 @@ class HomeViewModel(
 
 
     fun hitTheApi() {
-//        _apiResponse.postValue(NetworkState.Loading())
+        _apiResponse.postValue(NetworkState.Loading())
         val state = uiState.value
 
         when (state.requestType) {
@@ -113,9 +113,11 @@ class HomeViewModel(
                     val call = getRequestUseCaseImpl.invoke(
                         state.url,
                         state.headersList.associate { it.key to it.value })
-                    mainHandler.post {
-                        _apiResponse.value = call
-                    }
+
+                    _apiResponse.postValue(call)
+//                    mainHandler.post {
+//                        _apiResponse.value =
+//                    }
                 }
             }
 

@@ -6,6 +6,7 @@ import com.example.instatest.data.network.model.NetworkRequest
 import com.example.instatest.data.network.model.Part
 
 import java.io.File
+import java.net.HttpRetryException
 
 class HomeRepositoryImpl(private val networkClientImpl: NetworkClientImpl):HomeRepository {
     override fun getRequest(url: String, headers: Map<String, String>): Call {

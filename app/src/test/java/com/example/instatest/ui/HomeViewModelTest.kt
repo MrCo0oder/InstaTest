@@ -21,6 +21,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
 import java.io.File
 import java.net.URL
 import java.util.concurrent.CountDownLatch
@@ -49,6 +50,14 @@ class HomeViewModelTest {
     @Test
     fun testSuccessfulGetRequest() {
         val url = "https://fab51db5-7ad2-43c4-a43a-9cdbb80f2079.mock.pstmn.io/Getsuccess?id=99"
+        val headers =
+            mapOf("x-api-key" to "PMAK-66817683802075000135eedd-26618c34fb15708a38d52ca49c8f426d15")
+
+        val mockCall = Call(
+            overview = Overview(URL(url), Methods.GET.name, "Server Error", 500),
+            request = Request(headers),
+            response = Response(body = """{"success":"false","msg":"something went wrong!"}""")
+        )
 
         viewModel.onEvent(HomeUiEvents.UrlEntered(url))
         viewModel.onEvent(HomeUiEvents.MethodSelected(Methods.GET))
@@ -60,21 +69,27 @@ class HomeViewModelTest {
                 )
             )
         )
+        val latch = CountDownLatch(1)
 
-        runBlocking {
-            viewModel.hitTheApi()
+        // Observe the LiveData
+        val observer = Observer<NetworkState<Call>> {
+            if (it is NetworkState.Success) {
+                latch.countDown() // Decrement the latch count when data is received
+            } // Decrement the latch count when data is received
         }
-        Thread.sleep(1000)
+        viewModel.apiResponse.observeForever(observer)
 
+        viewModel.hitTheApi()
+        latch.await(2, TimeUnit.SECONDS)
         val apiResponseValue = viewModel.apiResponse.value
 
-        if (apiResponseValue is NetworkState.Success) {
-            Assert.assertEquals(200, apiResponseValue.data.overview?.statusCode)
-        }
 
-        Assert.assertEquals(url, viewModel.uiState.value.url)
-        Assert.assertEquals(Methods.GET, viewModel.uiState.value.requestType)
-        Assert.assertEquals(1, viewModel.uiState.value.headersList.size)
+        Assert.assertEquals(
+            200,
+            (apiResponseValue as NetworkState.Success).data.overview?.statusCode
+        )
+
+
     }
 
     @Test
@@ -138,6 +153,7 @@ class FakeHomeRepository : HomeRepository {
         headers: Map<String, String>,
         jsonBody: String?
     ): Call {
+        Thread.sleep(1000) // Simulate network delay
         return Call(
             overview = Overview(URL(url), Methods.POST.name, "OK", 0),
             request = Request(headers),

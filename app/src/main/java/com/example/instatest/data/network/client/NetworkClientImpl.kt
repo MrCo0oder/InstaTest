@@ -128,7 +128,7 @@ class NetworkClientImpl(private val dbHelper: DatabaseHelper): NetworkClient{
                     append("...")
                 },
             ),
-            response = null
+            response = Response(body =  if (e is UnknownHostException) "Could not Resolve Host" else "")
         )
     }
 
