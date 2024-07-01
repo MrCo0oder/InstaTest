@@ -37,7 +37,6 @@ class HomeViewModel(
     val methodsList = Methods.entries
     val requestBodyTypeList = RequestBodyType.entries
     private val backgroundExecutor = Executors.newSingleThreadExecutor()
-    private val mainHandler = Handler(Looper.getMainLooper())
 
     private var _apiResponse: MutableLiveData<NetworkState<Call>> =
         MutableLiveData(NetworkState.Loading())
@@ -109,35 +108,30 @@ class HomeViewModel(
 
         when (state.requestType) {
             Methods.GET -> {
-                backgroundExecutor.execute {
+
+                Thread {
                     val call = getRequestUseCaseImpl.invoke(
                         state.url,
                         state.headersList.associate { it.key to it.value })
-
                     _apiResponse.postValue(call)
-//                    mainHandler.post {
-//                        _apiResponse.value =
-//                    }
-                }
+                }.start()
             }
 
             Methods.POST -> {
                 when (state.requestBodyType) {
                     RequestBodyType.JSON -> {
-                        backgroundExecutor.execute {
+                        Thread {
                             val call = postJsonRequestUseCaseImpl.invoke(
                                 state.url,
                                 state.headersList.associate { it.key to it.value },
                                 state.jsonBody
                             )
-                            mainHandler.post {
-                                _apiResponse.value = call
-                            }
-                        }
+                            _apiResponse.postValue(call)
+                        }.start()
                     }
 
                     RequestBodyType.MULTIPART -> {
-                        backgroundExecutor.execute {
+                        Thread {
                             val file = state.fileUri?.path?.let { File(it) }
                             val fileContent =
                                 state.fileUri?.let { contentResolver.uriToByteArray(it) }
@@ -152,11 +146,9 @@ class HomeViewModel(
                                     fileMimeType,
                                     fileContent
                                 )
-                                mainHandler.post {
-                                    _apiResponse.value = call
-                                }
+                                _apiResponse.postValue(call)
                             }
-                        }
+                        }.start()
                     }
 
                     else -> {}
@@ -173,9 +165,5 @@ class HomeViewModel(
         } else
             true
 
-    override fun onCleared() {
-        super.onCleared()
-        backgroundExecutor.shutdown()
-    }
 }
 
