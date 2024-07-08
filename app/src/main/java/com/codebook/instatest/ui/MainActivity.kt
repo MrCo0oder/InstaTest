@@ -1,4 +1,4 @@
-package com.codebook.instatest.ui
+package com.example.instatest.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

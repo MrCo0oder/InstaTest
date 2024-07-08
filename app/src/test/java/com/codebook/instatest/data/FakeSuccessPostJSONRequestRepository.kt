@@ -21,7 +21,7 @@ class FakeSuccessPostJSONRequestRepository : HomeRepository {
     ): Call {
         Thread.sleep(1000) // Simulate network delay
         return Call(
-            overview = Overview(URL(url), Methods.POST.name, "OK", 200),
+            overview = Overview(url, Methods.POST.name, "OK", 200),
             request = Request(headers),
             response = Response(body = """{"success":"true","msg":"Welcome Ahmed"}""")
         )

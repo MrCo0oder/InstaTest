@@ -21,7 +21,7 @@ class FakeFailurePostJSONRequestRepository : HomeRepository {
     ): Call {
         Thread.sleep(1000) // Simulate network delay
         return Call(
-            overview = Overview(URL(url), Methods.POST.name, "Not Found", 404),
+            overview = Overview(url, Methods.POST.name, "Not Found", 404),
             request = Request(headers),
             response = Response(body = """{"success":"false","msg":"not found"}""")
         )

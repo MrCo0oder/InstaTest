@@ -13,7 +13,7 @@ class FakeSuccessfulGetRequestHomeRepository : HomeRepository {
     override fun getRequest(url: String, headers: Map<String, String>): Call {
         Thread.sleep(1000) // Simulate network delay
         return Call(
-            overview = Overview(URL(url), Methods.GET.name, "", 200),
+            overview = Overview(url, Methods.GET.name, "", 200),
             request = Request(headers),
             response = Response(body = """{"success":"true","msg":"Welcome Ahmed"}""")
         )
@@ -26,7 +26,7 @@ class FakeSuccessfulGetRequestHomeRepository : HomeRepository {
     ): Call {
         Thread.sleep(1000) // Simulate network delay
         return Call(
-            overview = Overview(URL(url), Methods.POST.name, "OK", 0),
+            overview = Overview(url, Methods.POST.name, "OK", 0),
             request = Request(headers),
             response = Response(body = """{"success":"true","msg":"Welcome Ahmed"}""")
         )
@@ -41,7 +41,7 @@ class FakeSuccessfulGetRequestHomeRepository : HomeRepository {
         fileContent: ByteArray
     ): Call {
         return Call(
-            overview = Overview(URL(url), Methods.POST.name, "OK", 200),
+            overview = Overview(url, Methods.POST.name, "OK", 200),
             request = Request(headers),
             response = Response(body = """{"success":"true","msg":"Welcome Ahmed"}""")
         )

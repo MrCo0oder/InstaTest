@@ -13,7 +13,7 @@ class FakeFailureGetRequestHomeRepository : HomeRepository {
     override fun getRequest(url: String, headers: Map<String, String>): Call {
         Thread.sleep(1000) // Simulate network delay
         return  Call(
-            overview = Overview(URL(url), Methods.GET.name, "Server Error", 500),
+            overview = Overview(url, Methods.GET.name, "Server Error", 500),
             request = Request(headers),
             response = Response(body = """{"success":"false","msg":"something went wrong!"}""")
         )

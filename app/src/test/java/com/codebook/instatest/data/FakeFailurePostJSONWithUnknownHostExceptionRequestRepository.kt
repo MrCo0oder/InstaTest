@@ -22,7 +22,7 @@ class FakeFailurePostJSONWithUnknownHostExceptionRequestRepository : HomeReposit
     ): Call {
         Thread.sleep(1000) // Simulate network delay
         return Call(
-            overview = Overview(URL(url), Methods.POST.name, "Could not Resolve Host", -1),
+            overview = Overview(url, Methods.POST.name, "Could not Resolve Host", -1),
             request = Request(
                 headers = headers,
                 body = jsonBody,
