@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.instatest"
+    namespace = "com.codebook.instatest"
     compileSdk = 34
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
     defaultConfig {
-        applicationId = "com.example.instatest"
+        applicationId = "com.codebook.instatest"
         minSdk = 25
         targetSdk = 34
         versionCode = 1
