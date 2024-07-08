@@ -45,3 +45,25 @@ The application follows a structured approach using Clean Architecture with laye
 - **Jetpack Compose**: Declarative UI toolkit for building native Android UIs.
 - **LiveData**: Lifecycle-aware observable data holder class.
 - **SQLite**: Local database for caching network requests/responses.
+## Fake Server for testing
+## GET Getsuccess?id=99
+https://fab51db5-7ad2-43c4-a43a-9cdbb80f2079.mock.pstmn.io/Getsuccess?id=99
+
+## GET GetFailed?id=99
+https://fab51db5-7ad2-43c4-a43a-9cdbb80f2079.mock.pstmn.io/GetFailed?id=99
+
+//////////////////////////
+## POST addUserTrue
+https://fab51db5-7ad2-43c4-a43a-9cdbb80f2079.mock.pstmn.io/addUserTrue
+
+{"phone":"01010101010","name":"New Ahmed"}
+
+//////////////////////////
+## POST addUserFalse
+https://fab51db5-7ad2-43c4-a43a-9cdbb80f2079.mock.pstmn.io/addUserFalse
+
+{"phone":"01010101010","name":"New Ahmed"}
+
+## AUTH
+x-api-key
+PMAK-668c143dafe0550001c19072-855a7e5541ecfe655d3ed55cd4c9d8ddb6
