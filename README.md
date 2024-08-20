@@ -1,4 +1,4 @@
-# Instabug Android Challenge
+# Insta Test
 
 ## Overview
 
